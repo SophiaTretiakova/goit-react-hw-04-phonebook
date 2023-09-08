@@ -16,29 +16,29 @@ export const App = () => {
     const savedContacts = JSON.parse(localStorage.getItem('contacts'));
     if (savedContacts) {
       setContacts(savedContacts);
-      console.log('Contacts loaded from localStorage:', savedContacts);
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-    console.log('Contacts saved to localStorage:', contacts);
-  }, [contacts]);
+  // useEffect(() => {
+  //   localStorage.setItem('contacts', JSON.stringify([...contacts]));
+  //   console.log('Contacts saved to localStorage:', contacts);
+  // }, [contacts]);
 
   const addContact = newContact => {
     if (contacts.some(contact => contact.name === newContact.name)) {
       alert('Contact with the same name already exists.');
-    } else {
-      setContacts(prevContacts => {
-        return [...prevContacts, { id: nanoid(5), ...newContact }];
-      });
+      return;
     }
+    localStorage.setItem(
+      'contacts',
+      JSON.stringify([...contacts, { id: nanoid(), ...newContact }])
+    );
+    setContacts([...contacts, { id: nanoid(), ...newContact }]);
   };
 
   const handleDeleteContact = id => {
-    setContacts(prevContacts => {
-      return prevContacts.filter(contact => contact.id !== id);
-    });
+    const updatedContacts = contacts.filter(contact => contact.id !== id);
+    setContacts(updatedContacts);
   };
 
   const handleChange = evt => {
@@ -49,7 +49,6 @@ export const App = () => {
     const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase().trim())
     );
-
     return filteredContacts;
   };
 

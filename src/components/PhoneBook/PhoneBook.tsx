@@ -1,7 +1,8 @@
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import propTypes from 'prop-types';
 import { StyledForm, Label } from './PhoneBook.styled';
+import React from 'react';
+import { Contact } from '../App';
 
 const AddSchema = Yup.object().shape({
   name: Yup.string()
@@ -18,7 +19,11 @@ const AddSchema = Yup.object().shape({
     ),
 });
 
-export const PhoneBook = ({ addNewContact }) => {
+export type NewContact = Omit<Contact, 'id'>;
+
+export const PhoneBook: React.FC<{
+  addNewContact: (contact: NewContact) => void;
+}> = ({ addNewContact }) => {
   return (
     <div>
       <Formik
@@ -45,15 +50,4 @@ export const PhoneBook = ({ addNewContact }) => {
       </Formik>
     </div>
   );
-};
-
-PhoneBook.propTypes = {
-  addNewContact: propTypes.func,
-  contacts: propTypes.arrayOf(
-    propTypes.shape({
-      id: propTypes.string,
-      name: propTypes.string,
-      number: propTypes.string,
-    })
-  ),
 };

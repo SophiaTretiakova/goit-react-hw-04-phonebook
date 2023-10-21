@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "noEmitOnError": false,
+    "inlineSources": true,
+    "sourceMap": true,
+    "lib": ["ES2020", "dom", "esnext.asynciterable"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "outDir": "build",
+    "target": "es6",
+    "typeRoots": ["./node_modules/@types/"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "experimentalDecorators": false,
+    "baseUrl": ".",
+    "incremental": true,
+    // "jsxImportSource": "@emotion/react",
+    "useDefineForClassFields": true
+  },
+  "include": ["./"],
+  "exclude": ["./dist/", "node_modules"]
+}

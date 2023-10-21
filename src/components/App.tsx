@@ -5,26 +5,29 @@ import { ContactsList } from './Contacts/ContactsList';
 import { Filter } from './Filter/Filter';
 import { GlobalStyles } from './GlobalStyles.styled';
 import { useState, useEffect } from 'react';
+import { NewContact } from './PhoneBook/PhoneBook';
+
+export type Contact = {
+  id: string;
+  name: string;
+  number: string;
+};
 
 export const App = () => {
-  const [contacts, setContacts] = useState([
+  const [contacts, setContacts] = useState<Contact[]>([
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
   ]);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    const savedContacts = JSON.parse(localStorage.getItem('contacts'));
+    const lsData = localStorage.getItem('contacts');
+    const savedContacts = JSON.parse(lsData ? lsData : '');
     if (savedContacts) {
       setContacts(savedContacts);
     }
   }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify([...contacts]));
-  //   console.log('Contacts saved to localStorage:', contacts);
-  // }, [contacts]);
-
-  const addContact = newContact => {
+  const addContact = (newContact: NewContact) => {
     if (contacts.some(contact => contact.name === newContact.name)) {
       alert('Contact with the same name already exists.');
       return;
@@ -36,13 +39,13 @@ export const App = () => {
     setContacts([...contacts, { id: nanoid(), ...newContact }]);
   };
 
-  const handleDeleteContact = id => {
+  const handleDeleteContact = (id: string) => {
     const updatedContacts = contacts.filter(contact => contact.id !== id);
     setContacts(updatedContacts);
   };
 
-  const handleChange = evt => {
-    setFilter(evt.target.value);
+  const handleChange = (evt: React.SyntheticEvent<HTMLInputElement>) => {
+    setFilter(evt.currentTarget.value);
   };
 
   const getFilterContacts = () => {
